@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NLR-MVL Score | คะแนนทำนายการเสียชีวิต 30 วันในผู้ป่วย Sepsis</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef3f6;--card:#fff;--ink:#13263a;--mut:#58697c;--line:#d6e0e8;--pri:#0a4a6e;--acc:#0d8a8f;--sel:#e4f0f6;
+--l0:#2e9e5b;--l1:#e0861a;--l2:#c62f3b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c151e;--card:#142230;--ink:#e6eef5;--mut:#9bb0c3;--line:#294052;--pri:#6cb6e0;--acc:#4fc3c8;--sel:#1a3144}}
+:root[data-theme="dark"]{--bg:#0c151e;--card:#142230;--ink:#e6eef5;--mut:#9bb0c3;--line:#294052;--pri:#6cb6e0;--acc:#4fc3c8;--sel:#1a3144}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Sarabun','Noto Sans Thai',Tahoma,sans-serif;line-height:1.6}
+header{background:linear-gradient(135deg,#0a4a6e,#0d8a8f);color:#fff;text-align:center;padding:34px 16px 56px}
+header h1{margin:6px 0;font-size:1.65rem}header p{margin:0 auto;max-width:660px;opacity:.93}
+main{max-width:780px;margin:-34px auto 36px;padding:0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 2px 10px rgba(10,74,110,.09)}
+.q{padding:14px 0;border-top:1px solid var(--line)}.q:first-child{border:0;padding-top:4px}
+.q h3{margin:0 0 4px;font-size:1.05rem;color:var(--pri)}.q small{color:var(--mut)}
+.opt{display:inline-block;border:1px solid var(--line);border-radius:10px;padding:8px 18px;margin:8px 8px 0 0;cursor:pointer}
+.opt:has(input:checked){background:var(--sel);border-color:var(--pri);font-weight:700}
+.opt input{margin-right:6px;accent-color:var(--pri)}
+input[type=number]{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 12px;width:150px;margin:8px 8px 0 0}
+.hint{font-size:.88rem;color:var(--mut);margin-top:6px}
+button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:12px 24px;cursor:pointer;background:var(--pri);color:var(--card)}
+button.g{background:transparent;color:var(--pri);border:1px solid var(--pri);font-weight:500}
+.err{color:var(--l2);min-height:1.4em;margin:8px 0 0}
+.center{text-align:center}.num{font-size:3.6rem;font-weight:700;line-height:1}
+.badge{display:inline-block;color:#fff;border-radius:999px;padding:4px 20px;font-weight:700;margin:8px 0}
+.mort{font-size:1.1rem;margin:4px 0}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{background:var(--sel)}
+tr.me td{background:var(--sel);font-weight:700}
+.note{font-size:.84rem;color:var(--mut)}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.stat{flex:1;min-width:84px;background:var(--sel);border-radius:10px;padding:8px;text-align:center}.stat b{display:block;font-size:1.3rem;color:var(--pri)}
+h2{margin:0 0 10px;font-size:1.15rem;color:var(--pri)}
+footer{text-align:center;color:var(--mut);font-size:.8rem;padding:0 14px 30px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size:38px">🩺</div>
+  <h1>NLR-MVL Score</h1>
+  <p>คะแนนทำนายอัตราการเสียชีวิตที่ 30 วันในผู้ป่วยติดเชื้อในกระแสเลือด (Sepsis) ประกอบด้วยตัวแปร 4 ข้อ ได้แก่ การใช้เครื่องช่วยหายใจ การใช้ยากระตุ้นความดัน ค่า NLR และระดับ Lactate</p>
+</header>
+<main>
+  <div class="card">
+    <div class="q"><h3>1. ผู้ป่วยใช้เครื่องช่วยหายใจ (Mechanical ventilation)</h3><small>ใช่ = 2 คะแนน</small><br>
+      <label class="opt"><input type="radio" name="mv" value="1">ใช่</label><label class="opt"><input type="radio" name="mv" value="0">ไม่ใช่</label></div>
+    <div class="q"><h3>2. ผู้ป่วยได้รับยากระตุ้นความดันโลหิต (Vasopressor)</h3><small>ใช่ = 1 คะแนน</small><br>
+      <label class="opt"><input type="radio" name="vp" value="1">ใช่</label><label class="opt"><input type="radio" name="vp" value="0">ไม่ใช่</label></div>
+    <div class="q"><h3>3. Neutrophil-to-Lymphocyte Ratio (NLR)</h3><small>NLR ≥ 10.57 = 1 คะแนน (คำนวณจาก CBC ภายใน 24 ชั่วโมงแรกของการรับไว้รักษา)</small><br>
+      <input type="number" id="nlr" min="0" step="0.01" placeholder="ค่า NLR">
+      <div class="hint">ยังไม่มีค่า NLR? กรอก %Neutrophil และ %Lymphocyte แล้วระบบจะคำนวณให้</div>
+      <input type="number" id="neu" min="0" max="100" step="0.1" placeholder="%Neutrophil">
+      <input type="number" id="lym" min="0" max="100" step="0.1" placeholder="%Lymphocyte"></div>
+    <div class="q"><h3>4. ระดับ Lactate ในเลือด (mmol/L)</h3><small>Lactate ≥ 2 mmol/L = 1 คะแนน</small><br>
+      <input type="number" id="lac" min="0" step="0.1" placeholder="mmol/L"></div>
+    <div class="center"><button id="go">คำนวณคะแนน</button><div class="err" id="err"></div></div>
+  </div>
+
+  <div id="res" class="card center" hidden>
+    <div class="note">NLR-MVL Score ของผู้ป่วย (คะแนนเต็ม 5)</div>
+    <div class="num" id="rnum"></div>
+    <div><span class="badge" id="rlvl"></span></div>
+    <div class="mort" id="rmort"></div>
+    <p id="radv" style="text-align:left;max-width:600px;margin:10px auto"></p>
+    <table id="rbk" style="max-width:600px;margin:8px auto;text-align:left"></table>
+  </div>
+
+  <div class="card">
+    <h2>การแปลผลคะแนน</h2>
+    <div class="scroll"><table id="t7"></table></div>
+    <p class="note">อัตราการเสียชีวิตที่สังเกตได้จากกลุ่มตรวจสอบความถูกต้องแบบข้ามช่วงเวลา (temporal validation cohort) จำนวน 200 ราย อัตราการเสียชีวิตโดยรวม 28.0% กลุ่มที่ได้ 5 คะแนนมีผู้ป่วยเพียง 5 ราย จึงควรตีความด้วยความระมัดระวัง</p>
+    <h2 style="margin-top:18px">ข้อแนะนำตามระดับความเสี่ยง</h2>
+    <div class="scroll"><table id="adv"></table></div>
+  </div>
+
+  <div class="card">
+    <h2>ข้อควรทราบ</h2>
+    <p class="note" style="font-size:.92rem">ค่า AUC ของคะแนนเท่ากับ 0.765 ในกลุ่มพัฒนา 0.749 หลังตรวจสอบภายในด้วย bootstrap และ 0.734 ในกลุ่มตรวจสอบภายนอกแบบข้ามช่วงเวลา คะแนนนี้ใช้เพื่อสนับสนุนการประเมินทางคลินิกเท่านั้น ไม่สามารถใช้แทนดุลยพินิจของแพทย์ หรือใช้ตัดสินการรักษาเพียงลำพัง และยังต้องตรวจสอบความถูกต้องในหลายโรงพยาบาล รวมทั้งประเมิน calibration และประโยชน์ทางคลินิกก่อนนำไปใช้จริง</p>
+    <p class="note" style="font-size:.92rem">หน้านี้ไม่เก็บข้อมูลที่กรอก การคำนวณทำงานบนอุปกรณ์ของผู้ใช้ อย่างไรก็ตามไม่ควรกรอกข้อมูลที่ระบุตัวตนผู้ป่วย (ชื่อ, HN, เลขบัตรประชาชน) ลงในหน้านี้</p>
+  </div>
+
+</main>
+<footer>จัดทำตามงานวิจัยเรื่อง "The NLR-MVL Score for Predicting 30-Day Mortality in Patients with Sepsis: Development and Validation"</footer>
+
+<script>
+// ปรับตัวเลข/คำแนะนำได้ที่นี่
+var CUT={nlr:10.57,lac:2};
+var M=[{n:14.8,d:4,p:27},{n:16.0,d:13,p:81},{n:25.0,d:13,p:52},{n:52.9,d:9,p:17},{n:72.2,d:13,p:18},{n:80.0,d:4,p:5}]; // mortality %, deaths, patients ต่อคะแนน 0-5
+var G=[
+ {n:"ต่ำ",r:"0-1 คะแนน",c:"var(--l0)",t:"ผู้ป่วยกลุ่มนี้มีความเสี่ยงการเสียชีวิตโดยประมาณ 14.8-16.0% สามารถให้การรักษามาตรฐานได้ โดยติดตามอาการและการตอบสนองต่อการรักษาอย่างใกล้ชิด และประเมินซ้ำหากอาการทางคลินิกเปลี่ยนแปลง"},
+ {n:"ปานกลาง",r:"2 คะแนน",c:"var(--l1)",t:"ผู้ป่วยกลุ่มนี้มีความเสี่ยงการเสียชีวิตโดยประมาณ 25.0% ควรเฝ้าระวังใกล้ชิดขึ้น ได้แก่ ประเมินการตอบสนองต่อการให้สารน้ำ การให้ยาต้านจุลชีพ การควบคุมแหล่งติดเชื้อ และติดตามตัวชี้วัดการล้มเหลวของอวัยวะอย่างต่อเนื่อง เพื่อป้องกันการดำเนินไปสู่ภาวะวิกฤต"},
+ {n:"สูง",r:"3-5 คะแนน",c:"var(--l2)",t:"ผู้ป่วยกลุ่มนี้มีความเสี่ยงการเสียชีวิตสูงชัดเจน (52.9-80.0%) ควรได้รับการดูแลแบบเข้มข้นตั้งแต่ระยะแรก ติดตามสัญญาณชีพและการทำงานของอวัยวะอย่างใกล้ชิด ประเมินความจำเป็นในการรับไว้ในหอผู้ป่วยวิกฤต ให้การรักษาตามแนวทาง Sepsis ครบถ้วนทันเวลา และประเมินซ้ำเพื่อแก้ไขภาวะไหลเวียนโลหิตบกพร่องและเนื้อเยื่อขาดเลือดให้เร็วที่สุด"}];
+var gi=function(s){return s<=1?0:s==2?1:2};
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+$("t7").innerHTML='<tr><th>NLR-MVL Score</th><th>จำนวนผู้ป่วย (ราย)</th><th>เสียชีวิต (ราย)</th><th>อัตราเสียชีวิตที่ 30 วัน</th><th>ระดับความเสี่ยง</th></tr>'+
+ M.map(function(m,s){var g=G[gi(s)];return '<tr id="r'+s+'"><td>'+s+'</td><td>'+m.p+'</td><td>'+m.d+'</td><td>'+m.n+'%</td><td style="color:'+g.c+';font-weight:700">'+g.n+'</td></tr>'}).join('');
+$("adv").innerHTML='<tr><th>ระดับ</th><th>คะแนน</th><th>ข้อแนะนำ</th></tr>'+G.map(function(g){return '<tr><td style="color:'+g.c+';font-weight:700">'+g.n+'</td><td>'+g.r+'</td><td>'+g.t+'</td></tr>'}).join('');
+
+function syncNLR(){var n=parseFloat($("neu").value),l=parseFloat($("lym").value);if(n>=0&&l>0)$("nlr").value=(n/l).toFixed(2)}
+$("neu").oninput=$("lym").oninput=syncNLR;
+
+$("go").onclick=function(){
+  var mv=document.querySelector('input[name=mv]:checked'),vp=document.querySelector('input[name=vp]:checked');
+  var nlr=parseFloat($("nlr").value),lac=parseFloat($("lac").value);
+  if(!mv||!vp||isNaN(nlr)||isNaN(lac)||nlr<0||lac<0){$("err").textContent="กรุณากรอกข้อมูลให้ครบทั้ง 4 ข้อ (ค่า NLR และ Lactate ต้องไม่ติดลบ)";return}
+  $("err").textContent="";
+  var p=[+mv.value*2,+vp.value,nlr>=CUT.nlr?1:0,lac>=CUT.lac?1:0],s=p[0]+p[1]+p[2]+p[3],g=G[gi(s)];
+  $("rnum").textContent=s;$("rlvl").textContent="ความเสี่ยง"+g.n;$("rlvl").style.background=g.c;
+  $("rmort").innerHTML="อัตราการเสียชีวิตที่ 30 วันที่สังเกตได้ในกลุ่มตรวจสอบ: <b>"+M[s].n+"%</b>";
+  $("radv").textContent=g.t;
+  var it=[["ใช้เครื่องช่วยหายใจ",mv.value==1?"ใช่":"ไม่ใช่",p[0]],["ใช้ยากระตุ้นความดัน",vp.value==1?"ใช่":"ไม่ใช่",p[1]],["NLR (เกณฑ์ ≥ "+CUT.nlr+")",nlr,p[2]],["Lactate (เกณฑ์ ≥ "+CUT.lac+" mmol/L)",lac,p[3]]];
+  $("rbk").innerHTML='<tr><th>ตัวแปร</th><th>ค่า</th><th>คะแนน</th></tr>'+it.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+esc(r[1])+'</td><td>'+r[2]+'</td></tr>'}).join('')+'<tr class="me"><td colspan="2">รวม</td><td>'+s+'</td></tr>';
+  document.querySelectorAll("#t7 tr").forEach(function(t){t.className=""});$("r"+s).className="me";
+  $("res").hidden=false;$("res").scrollIntoView({behavior:"smooth"});
+};
+
+</script>
+</body>
+</html>
